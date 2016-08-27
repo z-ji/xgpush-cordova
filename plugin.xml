@@ -136,7 +136,7 @@
     <source-file src="src/android/v2/ReceiverManager.java" target-dir="src/com/eteng/push/xgpush2" />
 
     <!-- Tencent XGPush SDK -->
-    <source-file src="sdk/android/libs/android-support-v4.jar" target-dir="libs" />
+    <framework src="com.android.support:support-v13:23+" />
     <source-file src="sdk/android/libs/jg_filter_sdk_1.1.jar" target-dir="libs" />
     <source-file src="sdk/android/libs/Xg_sdk_v2.42_20160111_1539.jar" target-dir="libs" />
     <source-file src="sdk/android/libs/wup-1.0.0.E-SNAPSHOT.jar" target-dir="libs" />
