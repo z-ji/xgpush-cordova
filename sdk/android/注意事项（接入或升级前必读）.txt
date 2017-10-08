@@ -11,6 +11,35 @@ http://developer.xg.qq.com/index.php/Main_Page
 http://developer.xg.qq.com/index.php/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
 
 
+日期：2016.5.10
+版本：V2.45
+说明：
+1. 优化安全协议，推送更加安全稳定
+2. 本地通知新增过期时间参数
+3. 修复部分bug
+升级提示：
+1.使用Xg_sdk_v2.45_xxx.jar替换旧版本
+2.复制libtpnsSecurity.so和libxguardian.so到工程的libs目录对应子目录下
+！！注意！！：通常只需要添加armeabi目录即可，若您的工程还有其它平台的.so，请选择对应平台添加上去，具体可自行网上搜索答案。
+3.参考AndroidManifest.xml配置相关内容
+
+
+
+
+日期：2016.5.5
+版本：V2.44
+说明：
+1、so库升级
+2、功能优化
+升级提示：
+1.使用Xg_sdk_v2.44_xxxjar替换旧版本
+2.删除lib目录下子目录的所有libtpnsWatchdog.so文件
+3.复制libtpnsSecurity.so到工程的libs目录对应子目录下
+！！注意！！：通常只需要添加armeabi目录即可，若您的工程还有其它平台的.so，请选择对应平台添加上去，具体可自行网上搜索答案。
+4.参考AndroidManifest.xml配置相关内容
+
+
+
 日期：2016.1.10
 版本：V2.42
 说明：

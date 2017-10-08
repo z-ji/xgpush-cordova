@@ -57,10 +57,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int icon=0x7f020006;
         public static final int logo=0x7f020007;
         public static final int nodata=0x7f020008;
-        public static final int qq_right=0x7f020009;
-        public static final int right=0x7f02000a;
-        public static final int scrollbarpanel_background=0x7f02000b;
-        public static final int update_time=0x7f02000c;
+        public static final int notification_icon=0x7f020009;
+        public static final int qq_right=0x7f02000a;
+        public static final int right=0x7f02000b;
+        public static final int scrollbarpanel_background=0x7f02000c;
+        public static final int update_time=0x7f02000d;
     }
     public static final class id {
         public static final int Button_clearCache=0x7f090028;
@@ -117,6 +118,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title=0x7f090000;
         public static final int title_id=0x7f09001c;
         public static final int update_time=0x7f09001e;
+        public static final int xg_notification_bg=0x7f090037;
+        public static final int xg_notification_date=0x7f090039;
+        public static final int xg_notification_icon=0x7f090038;
+        public static final int xg_notification_style=0x7f09003a;
+        public static final int xg_notification_style_content=0x7f09003c;
+        public static final int xg_notification_style_title=0x7f09003b;
+        public static final int xg_root_view=0x7f090036;
     }
     public static final class layout {
         public static final int activity_about=0x7f030000;
@@ -131,6 +139,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_item=0x7f030009;
         public static final int notification=0x7f03000a;
         public static final int scrollbarpanel=0x7f03000b;
+        public static final int xg_notification=0x7f03000c;
     }
     public static final class string {
         public static final int action_about_us=0x7f070004;

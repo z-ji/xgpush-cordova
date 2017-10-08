@@ -9,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -46,7 +42,7 @@ import com.tencent.android.tpush.XGLocalMessage;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.common.Constants;
-import com.tencent.android.tpush.service.XGPushService;
+import com.tencent.android.tpush.service.XGPushServiceV3;
 
 public class DiagnosisActivity extends Activity implements OnPositionChangedListener {
 
@@ -137,23 +133,23 @@ public class DiagnosisActivity extends Activity implements OnPositionChangedList
 	}
 
 	private void step0() {
-		long timeMillis = System.currentTimeMillis();
-		try {
-			String path = "http://www.baidu.com";
-			HttpGet httpGet = new HttpGet(path);
-			HttpClient httpClient = new DefaultHttpClient();
-			HttpResponse httpResp = httpClient.execute(httpGet);
-			if (httpResp.getStatusLine().getStatusCode() == 200) {
-				updateProgress((System.currentTimeMillis() - timeMillis) + "ms 网络状态良好!");
+//		long timeMillis = System.currentTimeMillis();
+//		try {
+//			String path = "http://www.baidu.com";
+//			HttpGet httpGet = new HttpGet(path);
+//			HttpClient httpClient = new DefaultHttpClient();
+//			HttpResponse httpResp = httpClient.execute(httpGet);
+//			if (httpResp.getStatusLine().getStatusCode() == 200) {
+//				updateProgress((System.currentTimeMillis() - timeMillis) + "ms 网络状态良好!");
 				step1();
-			} else {
-				updateProgress((System.currentTimeMillis() - timeMillis) + "ms 网络状态异常，请检查是否联网!");
-				stepLast();
-			}
-		} catch (Throwable e) {
-			updateProgress((System.currentTimeMillis() - timeMillis) + "ms 网络状态异常，请检查是否联网!\r\n" + e.getMessage());
-			stepLast();
-		}
+//			} else {
+//				updateProgress((System.currentTimeMillis() - timeMillis) + "ms 网络状态异常，请检查是否联网!");
+//				stepLast();
+//			}
+//		} catch (Throwable e) {
+//			updateProgress((System.currentTimeMillis() - timeMillis) + "ms 网络状态异常，请检查是否联网!\r\n" + e.getMessage());
+//			stepLast();
+//		}
 	}
 
 	private void step1() {
@@ -231,7 +227,7 @@ public class DiagnosisActivity extends Activity implements OnPositionChangedList
 			return;
 		}
 
-		String PushServiceName = XGPushService.class.getName();
+		String PushServiceName = XGPushServiceV3.class.getName();
 		for (RunningServiceInfo serviceInfo : runningServiceInfos) {
 			if (PushServiceName.equals(serviceInfo.service.getClassName())) {
 				updateProgress((System.currentTimeMillis() - timeMillis) + "ms 信鸽终端服务进程正常启动!");

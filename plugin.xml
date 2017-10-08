@@ -36,19 +36,19 @@
     <config-file target="AndroidManifest.xml" parent="/manifest">
 
       <!-- 【必须】 信鸽SDK所需权限 -->
-      <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
-      <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-      <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-      <uses-permission android:name="android.permission.WAKE_LOCK" />
-      <uses-permission android:name="android.permission.VIBRATE" />
+      <uses-permission android:name="android.permission.INTERNET"/>
+      <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-permission android:name="android.permission.WAKE_LOCK"/>
+      <uses-permission android:name="android.permission.VIBRATE"/>
       <!-- 【常用】 信鸽SDK所需权限 -->
-      <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-      <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+      <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
       <!-- 【可选】 信鸽SDK所需权限 -->
-      <!--
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.WRITE_SETTINGS" />
       <uses-permission android:name="android.permission.RESTART_PACKAGES" />
       <uses-permission android:name="android.permission.BROADCAST_STICKY" />
       <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -56,41 +56,42 @@
       <uses-permission android:name="android.permission.READ_LOGS" />
       <uses-permission android:name="android.permission.BLUETOOTH" />
       <uses-permission android:name="android.permission.BATTERY_STATS" />
-      -->
 
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
 
       <!-- 【必须】 信鸽receiver广播接收 -->
-      <receiver android:name="com.tencent.android.tpush.XGPushReceiver"
-        android:process=":xg_service_v2" >
+      <receiver
+          android:name="com.tencent.android.tpush.XGPushReceiver"
+          android:process=":xg_service_v3" >
         <intent-filter android:priority="0x7fffffff" >
+
           <!-- 【必须】 信鸽SDK的内部广播 -->
           <action android:name="com.tencent.android.tpush.action.SDK" />
           <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
-          <!-- 【必须】 系统广播：开屏和网络切换 -->
-          <action android:name="android.intent.action.USER_PRESENT" />
+          <!-- 【必须】 系统广播：网络切换 -->
           <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 
+          <!-- 【可选】 系统广播：开屏 -->
+          <action android:name="android.intent.action.USER_PRESENT" />
+
           <!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
-          <!--
           <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
           <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
           <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-          -->
         </intent-filter>
         <!-- 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 -->
-        <!--
         <intent-filter android:priority="0x7fffffff" >
-            <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
-            <action android:name="android.intent.action.MEDIA_REMOVED" />
-            <action android:name="android.intent.action.MEDIA_CHECKING" />
-            <action android:name="android.intent.action.MEDIA_EJECT" />
-            <data android:scheme="file" />
+          <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+          <action android:name="android.intent.action.MEDIA_REMOVED" />
+          <action android:name="android.intent.action.MEDIA_CHECKING" />
+          <action android:name="android.intent.action.MEDIA_EJECT" />
+
+          <data android:scheme="file" />
         </intent-filter>
-        -->
       </receiver>
+
 
       <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
       <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理-->
@@ -102,21 +103,31 @@
           <action android:name="android.intent.action" />
         </intent-filter>
       </activity>
-
+      
       <!-- 【必须】 信鸽service -->
-      <service android:name="com.tencent.android.tpush.service.XGPushService"
-        android:exported="true"
-        android:persistent="true"
-        android:process=":xg_service_v2">
-      </service>
+      <service android:name="com.tencent.android.tpush.service.XGPushServiceV3" android:exported="true" android:persistent="true" android:process=":xg_service_v3"/>
 
+      
       <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
-      <service android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+      <!--<service android:name="com.tencent.android.tpush.rpc.XGRemoteService"
         android:exported="true" >
         <intent-filter>
           <action android:name="$PACKAGE_NAME.PUSH_ACTION" />
         </intent-filter>
+      </service>-->
+
+      <!-- 【必须】 通知service，其中android:name部分要改为当前包名 -->
+      <service
+          android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+          android:exported="true" >
+        <intent-filter>
+          <!-- 【必须】 请修改为当前APP名包.PUSH_ACTION，如demo的包名为：com.qq.xgdemo -->
+          <action android:name="$PACKAGE_NAME.PUSH_ACTION" />
+        </intent-filter>
       </service>
+
+      <!-- 【必须】增强 xg_service 存活率 -->
+      <service android:name="com.tencent.android.tpush.service.XGDaemonService" android:process=":xg_service_v3"/>
 
       <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
       <meta-data android:name="XG_V2_ACCESS_ID"
@@ -127,6 +138,14 @@
         android:value="$ACCESS_KEY">
       </meta-data>
 
+      <!-- 【必须】 【注意】authorities 修改为 包名.AUTH_XGPUSH, 如 demo 的包名为： com.qq.xgdemo-->
+      <provider android:name="com.tencent.android.tpush.XGPushProvider" android:authorities="$PACKAGE_NAME.AUTH_XGPUSH" android:exported="true" />
+      <!-- 【必须】 【注意】authorities 修改为 包名.TPUSH_PROVIDER, 如 demo 的包名为： com.chace.secondgcm-->
+      <provider android:name="com.tencent.android.tpush.SettingsContentProvider" android:authorities="$PACKAGE_NAME.TPUSH_PROVIDER" android:exported="false" />
+      <!-- 【必须】 【注意】authorities 修改为 包名.TENCENT.MID.V3, 如 demo 的包名为： com.qq.xgdemo-->
+      <provider android:name="com.tencent.mid.api.MidProvider" android:authorities="$PACKAGE_NAME.TENCENT.MID.V3" android:exported="true"> </provider>
+      <!-- 【必须】 请修改为 APP 的 AccessId，“21”开头的 10 位数字，中间没空格 -->
+      
     </config-file>
 
     <source-file src="src/android/v2/XGPushPlugin.java" target-dir="src/com/eteng/push/xgpush2" />
@@ -138,14 +157,63 @@
     <!-- Tencent XGPush SDK -->
     <framework src="com.android.support:support-v13:23+" />
     <source-file src="sdk/android/libs/jg_filter_sdk_1.1.jar" target-dir="libs" />
-    <source-file src="sdk/android/libs/Xg_sdk_v2.42_20160111_1539.jar" target-dir="libs" />
+    <source-file src="sdk/android/libs/Xg_sdk_v3.1_20170417_0946.jar" target-dir="libs" />
     <source-file src="sdk/android/libs/wup-1.0.0.E-SNAPSHOT.jar" target-dir="libs" />
+    <source-file src="sdk/android/libs/mid-core-sdk-3.7.2.jar" target-dir="libs" />
 
     <!-- device related static library, you may need other platform so -->
-    <source-file src="sdk/android/Other-Platform-SO/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi" />
-    <source-file src="sdk/android/Other-Platform-SO/armeabi/libtpnsWatchdog.so" target-dir="libs/armeabi" />
+    <source-file src="sdk/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi" />
+    <source-file src="sdk/android/libs/armeabi/libxguardian.so" target-dir="libs/armeabi" />
     <source-file src="sdk/android/Other-Platform-SO/armeabi-v7a/libtpnsSecurity.so" target-dir="libs/armeabi-v7a" />
-    <source-file src="sdk/android/Other-Platform-SO/armeabi-v7a/libtpnsWatchdog.so" target-dir="libs/armeabi-v7a" />
+    <source-file src="sdk/android/Other-Platform-SO/armeabi-v7a/libxguardian.so" target-dir="libs/armeabi-v7a" />
 
   </platform>
+
+  <!-- ios -->
+  <platform name="ios">
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="XGPush">
+        <param name="ios-package" value="CDVXGPushPlugin"/>
+        <param name="onload" value="true"/>
+      </feature>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="XGPushMeta">
+      <dict>
+        <key>AccessID</key>
+        <integer>$ACCESS_ID</integer>
+        <key>AccessKey</key>
+        <string>$ACCESS_KEY</string>
+      </dict>
+    </config-file>
+
+    <!-- Tencent XGPush SDK -->
+    <header-file src="sdk/ios/demo/sdk/XGPush.h" />
+    <header-file src="sdk/ios/demo/sdk/XGSetting.h" />
+    <source-file src="sdk/ios/demo/sdk/libXG-SDK.a" framework="true" />
+
+    <!-- Cordova Plugin -->
+    <header-file src="src/ios/AppDelegate+CDVXGPush.h" />
+    <source-file src="src/ios/AppDelegate+CDVXGPush.m" />
+
+    <header-file src="src/ios/CDVXGPushPlugin.h" />
+    <source-file src="src/ios/CDVXGPushPlugin.m" />
+
+    <header-file src="src/ios/CDVXGPushUtil.h" />
+    <source-file src="src/ios/CDVXGPushUtil.m" />
+
+    <header-file src="src/ios/CDVRegisterNotification.h" />
+    <source-file src="src/ios/CDVRegisterNotification.m" />
+
+    <!-- Dependencies -->
+    <framework src="libz.dylib" />
+    <framework src="libsqlite3.dylib" />
+    <framework src="CFNetwork.framework" />
+    <framework src="SystemConfiguration.framework" />
+    <framework src="CoreTelephony.framework" />
+    <framework src="Security.framework" />
+
+  </platform>
+
 </plugin>
