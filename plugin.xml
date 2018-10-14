@@ -157,7 +157,7 @@
     <!-- Tencent XGPush SDK -->
     <framework src="com.android.support:support-v13:23+" />
     <source-file src="sdk/android/libs/jg_filter_sdk_1.1.jar" target-dir="libs" />
-    <source-file src="sdk/android/libs/Xg_sdk_v3.1_20170417_0946.jar" target-dir="libs" />
+    <source-file src="sdk/android/libs/Xg_sdk_v3.2.3_20180403_1839.jar" target-dir="libs" />
     <source-file src="sdk/android/libs/wup-1.0.0.E-SNAPSHOT.jar" target-dir="libs" />
     <source-file src="sdk/android/libs/mid-core-sdk-3.7.2.jar" target-dir="libs" />
 

@@ -21,7 +21,7 @@ var EventEmitter = require('eventemitter3');
 function XGPush(exec) {
   EventEmitter.call(this);
   this.exec = exec;
-  this.registerPush();
+ // this.registerPush();
   this.registerReceiver(
     this.eventSuccess.bind(this),
     this.eventError.bind(this)

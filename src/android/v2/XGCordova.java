@@ -5,6 +5,7 @@ import org.apache.cordova.CallbackContext;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushManager;
 
+import com.tencent.android.tpush.XGPushConfig;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +17,10 @@ public class XGCordova extends XGPushPlugin {
 
   @Override
   protected boolean registerPush(Context context, String alias, CallbackContext callback) {
+    XGPushConfig.enableDebug(context,true);
+    if("null".equals(alias)){
+      alias="";
+    }
     Log.d(TAG, "> register: " + alias);
     XGIOperateCallback reply = new XGCordovaOperateCallback(callback);
     if (TextUtils.isEmpty(alias)) {
